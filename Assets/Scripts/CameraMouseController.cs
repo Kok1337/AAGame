@@ -14,6 +14,11 @@ public class CameraMouseController : MonoBehaviour
     private float _maxZoomIn;
     private float _maxZoomOut;
 
+
+    [SerializeField]
+    public float ZoomSmootch = 0.025f;
+    private float _currZPosition;
+
     void Start()
     {
         _maxZoomIn = DefaultZPozition / ZoomInCoef;
@@ -34,11 +39,12 @@ public class CameraMouseController : MonoBehaviour
     {
         Camera.orthographic = false;
         SetCameraZPosition(DefaultZPozition);
+        _currZPosition = DefaultZPozition;
     }
 
     private void SetCameraZPosition(float z)
     {
-        Camera.transform.position = new Vector3(Camera.transform.position.x, Camera.transform.position.y, z);
+        Camera.transform.position = new Vector3(Camera.transform.position.x, Camera.transform.position.y, Mathf.MoveTowards(Camera.transform.position.z, z, ZoomSmootch));
     }
 
     // Update is called once per frame
@@ -48,30 +54,32 @@ public class CameraMouseController : MonoBehaviour
         {
             if (Input.mouseScrollDelta.y > 0)
             {
-                float zPosition = Camera.transform.position.z;
-                if (zPosition < _maxZoomIn)
+                if (_currZPosition < _maxZoomIn)
                 {
-                    zPosition += ZoomChangeAmount * Time.deltaTime;
-                    if (zPosition > _maxZoomIn)
+                    _currZPosition += ZoomChangeAmount * Time.deltaTime;
+                    if (_currZPosition > _maxZoomIn)
                     {
-                        zPosition = _maxZoomIn;
+                        _currZPosition = _maxZoomIn;
                     }
-                    SetCameraZPosition(zPosition);
                 }
             }
 
             if (Input.mouseScrollDelta.y < 0)
             {
-                float zPosition = Camera.transform.position.z;
-                if (zPosition > _maxZoomOut)
+                if (_currZPosition > _maxZoomOut)
                 {
-                    zPosition -= ZoomChangeAmount * Time.deltaTime;
-                    if (zPosition < _maxZoomOut)
+                    _currZPosition -= ZoomChangeAmount * Time.deltaTime;
+                    if (_currZPosition < _maxZoomOut)
                     {
-                        zPosition = _maxZoomOut;
+                        _currZPosition = _maxZoomOut;
                     }
-                    SetCameraZPosition(zPosition);
+                    
                 }
+            }
+
+            if (_currZPosition != Camera.transform.position.z)
+            {
+                SetCameraZPosition(_currZPosition);
             }
         }
     }

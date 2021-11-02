@@ -21,10 +21,14 @@ public class PlayerKeyboardController : MonoBehaviour
         {
             float x = Input.GetAxisRaw("Horizontal");
             float y = Input.GetAxisRaw("Vertical");
-            // Debug.Log(x + " " + y);
+
             Vector2 direction = new Vector2(x, y);
             float magnitude = direction.magnitude;
-            Player.MovementByDirection(magnitude > 1 ? direction.normalized : direction);
+
+            if (magnitude != 0)
+            {
+                Player.MovementByDirectionFromKeyBoard(magnitude > 1 ? direction.normalized : direction);
+            }
         }
     }
 }

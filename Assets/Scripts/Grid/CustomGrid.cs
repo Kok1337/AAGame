@@ -1,16 +1,19 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GridSystem
 {
     public class CustomGrid<TGridObject>
     {
-        private int _width, _height;
-        private float _cellSize;
-        private Transform _transform;
-        private TGridObject[,] _gridArray;
+        protected int _width, _height;
+        protected float _cellSize;
+        protected Transform _transform;
+        protected TGridObject[,] _gridArray;
 
         public event ObjectChangedHandler Notify;
+
+        public bool showDebug = true;
 
         public delegate void ObjectChangedHandler(int x, int y, TGridObject gridObject);
 
@@ -24,7 +27,7 @@ namespace GridSystem
             GenerateGrid(createGridObject);
         }
 
-        private void GenerateGrid(Func<CustomGrid<TGridObject>, int, int, TGridObject> createGridObject)
+        protected virtual void GenerateGrid(Func<CustomGrid<TGridObject>, int, int, TGridObject> createGridObject)
         {
             _gridArray = new TGridObject[_width, _height];
 
@@ -35,52 +38,48 @@ namespace GridSystem
                     _gridArray[x, y] = createGridObject(this, x, y);
                 }
             }
+        }
 
-            bool showDebug = true;
-            if (showDebug)
+        public List<TGridObject> GetNeighbors(Vector2Int position)
+        {
+            List<TGridObject> neighbors = new List<TGridObject>();
+
+            for (int x = -1; x <= 1; x++)
             {
-                TextMesh[,] _textMeshArray = new TextMesh[_width, _height];
-                for (int x = 0; x < _width; x++)
+                for (int y = -1; y <= 1; y++)
                 {
-                    for (int y = 0; y < _height; y++)
+                    if (x == 0 && y == 0)
+                        continue;
+
+                    int checkX = position.x + x;
+                    int checkY = position.y + y;
+
+                    if (checkX >= 0 && checkX < _width && checkY >= 0 && checkY < _height)
                     {
-                        _textMeshArray[x, y] = CreateTextMesh(GetWorldPosition(x, y) + new Vector3(_cellSize, _cellSize) * .5f, _gridArray[x, y].ToString(), Color.black);
-                        Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
-                        Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
+                        neighbors.Add(_gridArray[checkX, checkY]);
                     }
                 }
-                Debug.DrawLine(GetWorldPosition(0, _height), GetWorldPosition(_width, _height), Color.white, 100f);
-                Debug.DrawLine(GetWorldPosition(_width, 0), GetWorldPosition(_width, _height), Color.white, 100f);
-
-                Notify += (int x, int y, TGridObject gridObject) =>
-                {
-                    _textMeshArray[x, y].text = gridObject?.ToString();
-                };
             }
+
+            return neighbors;
         }
 
-        private TextMesh CreateTextMesh(Vector3 position, string text, Color color)
+        public int MaxSize
         {
-            GameObject gameObject = new GameObject("World_text", typeof(TextMesh));
-            gameObject.transform.localPosition = position;
-            gameObject.transform.SetParent(_transform, false);
-            float scale = 0.2f * _cellSize;
-            gameObject.transform.localScale = new Vector3(scale, scale);
-            TextMesh textMesh = gameObject.GetComponent<TextMesh>();
-            textMesh.fontSize = 20;
-            textMesh.anchor = TextAnchor.MiddleCenter;
-            textMesh.transform.position = position;
-            textMesh.text = text;
-            textMesh.color = color;
-            return textMesh;
+            get => Width * Hight;
         }
 
-        private Vector3 GetWorldPosition(int x, int y)
-        {
+        protected Vector3 GetWorldPosition(int x, int y)
+        { 
             return _transform.position + (new Vector3(x, y) * _cellSize);
         }
 
-        private Vector2Int GetXY(Vector3 worldPosition)
+        public Vector3 GetNodeCenterPosition(int x, int y)
+        {
+            return GetWorldPosition(x, y) + (new Vector3(.5f, .5f) * _cellSize);
+        }
+
+        protected Vector2Int GetXY(Vector3 worldPosition)
         {
             return new Vector2Int(Mathf.FloorToInt(worldPosition.x - _transform.position.x / _cellSize), Mathf.FloorToInt(worldPosition.y - _transform.position.y / _cellSize));
         }

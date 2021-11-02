@@ -7,28 +7,35 @@ public class CameraAndGridTest : MonoBehaviour
 {
     public Camera Camera;
 
-    private CustomGrid<bool> _grid;
+    private PathfindingGrid _pathfindingGrid;
+
+    private Player _player;
+
+    public Sprite sprite;
 
     void Start()
     {
-        _grid = new CustomGrid<bool>(10, 10, 1f, transform, (CustomGrid<bool> g, int x, int y) => false);
-        // _grid = new CustomGrid<int>(10, 10, 1f, transform, (CustomGrid<int> g, int x, int y) => 0);
+        _pathfindingGrid = new PathfindingGrid(100, 100, 1f, transform, sprite, (CustomGrid<PathNode> grid, int x, int y) => new PathNode(grid, x, y));
+
+        _player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Camera != null)
-        {
+        {         
             if (Input.GetMouseButtonDown(0))
             {
-                _grid.SetValue(GetWorldMousePosition(), !_grid.GetValue(GetWorldMousePosition()));
-                // Debug.Log(_grid.GetValue(GetWorldMousePosition()));
+                if (_player != null)
+                {
+                    _player.FollowPath(_pathfindingGrid.FindPath(_player.transform.position, GetWorldMousePosition()));
+                }
             }
 
             if (Input.GetMouseButtonDown(1))
             {
-                // _grid.SetValue(GetWorldMousePosition(), 50);
+                PathNode pathNode = _pathfindingGrid.GetValue(GetWorldMousePosition());
+                pathNode?.InvestIsWalkable();
             }
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GridSystem;
 
 public class Player : MonoBehaviour
 {
@@ -13,11 +14,16 @@ public class Player : MonoBehaviour
     private EventState _eventState = EventState.Idle;
     private DirectionState _directionState = DirectionState.Down;
 
+    private bool _pathFollowCoroutineIsStarted;
+    private Coroutine _pathFollowCoroutine;
+
     private void Start()
     {
         _transform = GetComponent<Transform>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _animationController = GetComponent<Animator>();
+
+        _pathFollowCoroutineIsStarted = false;
     }
 
     private void Update()
@@ -27,12 +33,23 @@ public class Player : MonoBehaviour
         {
             _animationController.Play(animationName);
         }
+
+        MovementByDirection(Vector2.zero);
+    }
+
+    public void MovementByDirectionFromKeyBoard(Vector2 direction)
+    {
+        if (_pathFollowCoroutineIsStarted)
+        {
+            StopCoroutine(_pathFollowCoroutine);
+        }
+        MovementByDirection(direction);
     }
 
     /*
      * Переместить персонажа согластно вектору direction
      */
-    public void MovementByDirection(Vector2 direction)
+    private void MovementByDirection(Vector2 direction)
     {
         if (direction != null)
         {
@@ -70,12 +87,42 @@ public class Player : MonoBehaviour
         // return _eventState;
     }
 
+    public void FollowPath(List<PathNode> path)
+    {
+        if (_pathFollowCoroutineIsStarted)
+        {
+            StopCoroutine(_pathFollowCoroutine);
+        }
+        _pathFollowCoroutine = StartCoroutine(PathFollowCoroutine(path));
+    }
+
+    private IEnumerator PathFollowCoroutine(List<PathNode> path)
+    {
+        _pathFollowCoroutineIsStarted = true;
+
+        for (int i = 1; i < path.Count; i++)
+        {
+            PathNode currentNode = path[i];
+            Vector3 nodeCenter = currentNode.GetNodeCenterPosition();
+            nodeCenter.z = transform.position.z;
+
+            while ((transform.position - nodeCenter).magnitude >= 0.2f)
+            {
+                Vector2 direction = nodeCenter - transform.position;
+                MovementByDirection(direction.normalized);
+                yield return null;
+            }  
+        }
+
+        _pathFollowCoroutineIsStarted = false;
+    }
+
     /*
      * Получение состояние Direction по смещению игрока 
      */
     private DirectionState GetDirectionState(float x, float y)
     {
-        if (y == 0)
+        if (CloseToZero(y))
         {
             if (x > 0)
             {
@@ -85,8 +132,22 @@ public class Player : MonoBehaviour
             {
                 return DirectionState.Left;
             }
+            return _directionState;
         }
 
+        if (CloseToZero(x))
+        {
+            if (y > 0)
+            {
+                return DirectionState.Up;
+            }
+            if (y < 0)
+            {
+                return DirectionState.Down;
+            }
+            return _directionState;
+        }
+       
         if (y > 0)
         {
             if (x > 0)
@@ -120,6 +181,14 @@ public class Player : MonoBehaviour
         }
 
         return _directionState;
+    }
+
+    /*
+     * Проверяет, близка ли координата к нолю. Нужно для определения направления.
+     */
+    private bool CloseToZero(float value)
+    {
+        return Mathf.Abs(value) < 0.1;
     }
 
     /*
