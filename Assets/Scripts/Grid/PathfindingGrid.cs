@@ -9,30 +9,40 @@ namespace GridSystem
     public class PathfindingGrid : CustomGrid<PathNode>
     {
         private const string DebugLayerName = "Debug Layer";
+        private const string BuildingLayerName = "Building Layer";
 
+        // PathFinding
         protected const int DiagonalWeight = 14;
         protected const int DirectWeight = 10;
+        private List<PathNode> _path;
 
+        // Debug
         private GameObject _debugGameObjectsLayer;
         private GameObject[,] _debugArray;
         private Sprite _sprite;
 
-        private List<PathNode> _path;
+        // Buildings
+        private GameObject _buildingsGameObjectsLayer;
+        public event BuildingChangedHandler NotifyBuildingChanged;
+        public delegate void BuildingChangedHandler(Vector2Int oldPosition, bool[,] oldArea, Vector2Int newPosition, bool[,] newArea);
 
         public PathfindingGrid(int wight, int hight, float cellSize, Transform transform, Sprite sprite, Func<CustomGrid<PathNode>, int, int, PathNode> createGridObject) : base(wight, hight, cellSize, transform, createGridObject)
         {
             _sprite = sprite;
-            _path = new List<PathNode>();
-
-            _debugGameObjectsLayer = new GameObject(DebugLayerName);
-            _debugGameObjectsLayer.transform.parent = _transform;
+            _path = new List<PathNode>();   
 
             GenereDebugInfo();
+            GenereBuildingsInfo();
         }
 
         #region Debug
+
         private void GenereDebugInfo()
         {
+            _debugGameObjectsLayer = new GameObject(DebugLayerName);
+            _debugGameObjectsLayer.transform.parent = _transform;
+            _debugGameObjectsLayer.transform.localPosition = Vector3.zero;
+
             _debugArray = new GameObject[_width, _height];
             for (int x = 0; x < _width; x++)
             {
@@ -42,7 +52,7 @@ namespace GridSystem
                 }
             }
 
-            Notify += (int x, int y, PathNode pathNode) =>
+            NotifyObjectChanged += (int x, int y, PathNode pathNode) =>
             {
                 Color nodeColor = pathNode.IsWalkable ? Color.white : Color.blue;
                 ColorizeNode(x, y, nodeColor);
@@ -56,6 +66,7 @@ namespace GridSystem
             spriteRenderer.sprite = _sprite;
             spriteRenderer.color = Color.white;
             debugGameObject.transform.parent = _debugGameObjectsLayer.transform;
+            debugGameObject.transform.localScale *= CellSize;
 
             Vector3 offset = new Vector3(_sprite.pivot.x / _sprite.pixelsPerUnit, _sprite.pivot.y / _sprite.pixelsPerUnit);
             debugGameObject.transform.position = GetWorldPosition(pathNode.GridPosition.x, pathNode.GridPosition.y) + offset * CellSize;
@@ -66,24 +77,6 @@ namespace GridSystem
         {
             _debugArray[x, y].GetComponent<SpriteRenderer>().color = color;
         }
-
-        /*
-        private TextMesh CreateTextMesh(Vector3 position, string text, Color color)
-        {
-            GameObject gameObject = new GameObject("World_text", typeof(TextMesh));
-            gameObject.transform.localPosition = position;
-            gameObject.transform.SetParent(_transform, false);
-            float scale = 0.2f * _cellSize;
-            gameObject.transform.localScale = new Vector3(scale, scale);
-            TextMesh textMesh = gameObject.GetComponent<TextMesh>();
-            textMesh.fontSize = 20;
-            textMesh.anchor = TextAnchor.MiddleCenter;
-            textMesh.transform.position = position;
-            textMesh.text = text;
-            textMesh.color = color;
-            return textMesh;
-        }
-        */
 
         private void ClearPath()
         {
@@ -102,7 +95,10 @@ namespace GridSystem
                 ColorizeNode(node.X, node.Y, Color.red);
             }
         }
+
         #endregion
+
+        #region FindPath
 
         public List<PathNode> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
         {
@@ -111,23 +107,9 @@ namespace GridSystem
             return FindPath(startPos.x, startPos.y, endPos.x, endPos.y);
         }
 
-        /*
-        private void ClearAllNodes()
-        {
-            for (int x = 0; x < _width; x++)
-            {
-                for (int y = 0; y < _height; y++)
-                {
-                    _gridArray[x, y].Clear();
-                }
-            }
-        }
-        */
-
         public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
         {
             ClearPath();
-            // ClearAllNodes();
 
             PathNode startNode = GetValue(startX, startY);
             PathNode endNode = GetValue(endX, endY);
@@ -204,6 +186,88 @@ namespace GridSystem
             int maxDst = Mathf.Max(dstX, dstY);
             return (minDst * DiagonalWeight) + ((maxDst - minDst) * DirectWeight);      
         }
+
+        #endregion
+
+        #region Buildings
+
+        private void GenereBuildingsInfo()
+        {
+            Transform buildingLayerTransform = _transform.Find(BuildingLayerName);
+            if (buildingLayerTransform != null)
+            {
+                _buildingsGameObjectsLayer = buildingLayerTransform.gameObject;
+            }
+            else
+            {
+                _buildingsGameObjectsLayer = new GameObject(BuildingLayerName);
+                _buildingsGameObjectsLayer.transform.parent = _transform;
+            }
+            _buildingsGameObjectsLayer.transform.localPosition = Vector3.zero;
+
+            // Смотрим все вложенные объекты
+            foreach (Transform child in _buildingsGameObjectsLayer.transform)
+            {
+                Building building = child.GetComponent<Building>();
+                if (building != null)
+                {
+                    building.Grid = this;
+                    FillBuildingArea(building.Position, building.WalkableArea);
+                }
+            }     
+
+
+            NotifyBuildingChanged += (Vector2Int oldPosition, bool[,] oldArea, Vector2Int newPosition, bool[,] newArea) =>
+            {
+                ClearBuildingArea(oldPosition, oldArea);
+                FillBuildingArea(newPosition, newArea);   
+            };
+        }
+
+        public void TrigerBuildingChanged(Vector2Int oldPosition, bool[,] oldArea, Vector2Int newPosition, bool[,] newArea)
+        {
+            NotifyBuildingChanged?.Invoke(oldPosition, oldArea, newPosition, newArea);
+        }
+
+        public void FillBuildingArea(Vector2Int position, bool[,] area)
+        {
+            for (int dx = 0; dx < area.GetLength(0); dx++)
+            {
+                for (int dy = 0; dy < area.GetLength(1); dy++)
+                {
+                    int x = position.x + dx;
+                    int y = position.y + dy;
+
+                    PathNode node = GetValue(x, y);
+
+                    if (node != null)
+                    {
+                        node.IsWalkable = area[dx, dy];
+                    }
+                }
+            }
+        }
+
+        public void ClearBuildingArea(Vector2Int position, bool[,] area)
+        {
+            for (int dx = 0; dx < area.GetLength(0); dx++)
+            {
+                for (int dy = 0; dy < area.GetLength(1); dy++)
+                {
+                    int x = position.x + dx;
+                    int y = position.y + dy;
+
+                    PathNode node = GetValue(x, y);
+
+                    if (node != null)
+                    {
+                        node.IsWalkable = true;
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }
 

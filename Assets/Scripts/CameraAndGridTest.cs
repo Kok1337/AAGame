@@ -15,7 +15,7 @@ public class CameraAndGridTest : MonoBehaviour
 
     void Start()
     {
-        _pathfindingGrid = new PathfindingGrid(100, 100, 1f, transform, sprite, (CustomGrid<PathNode> grid, int x, int y) => new PathNode(grid, x, y));
+        _pathfindingGrid = new PathfindingGrid(100, 40, 1f, transform, sprite, (CustomGrid<PathNode> grid, int x, int y) => new PathNode(grid, x, y));
 
         _player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }

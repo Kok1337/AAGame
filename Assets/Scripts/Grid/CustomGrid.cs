@@ -11,11 +11,10 @@ namespace GridSystem
         protected Transform _transform;
         protected TGridObject[,] _gridArray;
 
-        public event ObjectChangedHandler Notify;
+        public event ObjectChangedHandler NotifyObjectChanged;
+        public delegate void ObjectChangedHandler(int x, int y, TGridObject gridObject);
 
         public bool showDebug = true;
-
-        public delegate void ObjectChangedHandler(int x, int y, TGridObject gridObject);
 
         public CustomGrid(int wight, int hight, float cellSize, Transform transform, Func<CustomGrid<TGridObject>, int, int, TGridObject> createGridObject)
         {
@@ -81,7 +80,7 @@ namespace GridSystem
 
         protected Vector2Int GetXY(Vector3 worldPosition)
         {
-            return new Vector2Int(Mathf.FloorToInt(worldPosition.x - _transform.position.x / _cellSize), Mathf.FloorToInt(worldPosition.y - _transform.position.y / _cellSize));
+            return new Vector2Int(Mathf.FloorToInt((worldPosition.x - _transform.position.x) / _cellSize), Mathf.FloorToInt((worldPosition.y - _transform.position.y) / _cellSize));
         }
 
         public void SetValue(int x, int y, TGridObject value)
@@ -89,7 +88,7 @@ namespace GridSystem
             if (x >= 0 && y >= 0 && x < _width && y < _height)
             {
                 _gridArray[x, y] = value;
-                Notify?.Invoke(x, y, value);
+                NotifyObjectChanged?.Invoke(x, y, value);
             }
         }
 
@@ -97,7 +96,7 @@ namespace GridSystem
         {
             if (x >= 0 && y >= 0 && x < _width && y < _height)
             {
-                Notify?.Invoke(x, y, _gridArray[x, y]);
+                NotifyObjectChanged?.Invoke(x, y, _gridArray[x, y]);
             }
         }
 
