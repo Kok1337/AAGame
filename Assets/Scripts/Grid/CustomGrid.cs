@@ -14,8 +14,6 @@ namespace GridSystem
         public event ObjectChangedHandler NotifyObjectChanged;
         public delegate void ObjectChangedHandler(int x, int y, TGridObject gridObject);
 
-        public bool showDebug = true;
-
         public CustomGrid(int wight, int hight, float cellSize, Transform transform, Func<CustomGrid<TGridObject>, int, int, TGridObject> createGridObject)
         {
             _width = wight;
@@ -104,6 +102,12 @@ namespace GridSystem
         {
             Vector2Int gridPosition = GetXY(worldPosition);
             SetValue(gridPosition.x, gridPosition.y, value);
+        }
+
+        public Vector3 ConvertWorldPositionToGrid(Vector3 worldPosition)
+        {
+            Vector2Int gridPosition = GetXY(worldPosition);
+            return GetWorldPosition(gridPosition.x, gridPosition.y);
         }
 
         public TGridObject GetValue(int x, int y)

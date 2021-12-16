@@ -15,20 +15,37 @@ namespace GridSystem
         protected const int DiagonalWeight = 14;
         protected const int DirectWeight = 10;
         private List<PathNode> _path;
+        private bool _showDebug = false;
 
         // Debug
         private GameObject _debugGameObjectsLayer;
         private GameObject[,] _debugArray;
         private Sprite _sprite;
 
+        // private 
+        private float _alpha = 0.3f;
+        private Color _pathColor = Color.blue;
+        private Color _pathlessColor = Color.red;
+        private Color _buildingColor = Color.green;
+        private Color _walkableColor = Color.white;
+
         // Buildings
         private GameObject _buildingsGameObjectsLayer;
         public event BuildingChangedHandler NotifyBuildingChanged;
         public delegate void BuildingChangedHandler(Vector2Int oldPosition, bool[,] oldArea, Vector2Int newPosition, bool[,] newArea);
 
+        private Vector2Int _tempBuildingPosition;
+        private bool[,] _tempBuildingArea;
+
         public PathfindingGrid(int wight, int hight, float cellSize, Transform transform, Sprite sprite, Func<CustomGrid<PathNode>, int, int, PathNode> createGridObject) : base(wight, hight, cellSize, transform, createGridObject)
         {
             _sprite = sprite;
+
+            _pathColor.a = _alpha;
+            _pathlessColor.a = _alpha;
+            _buildingColor.a = _alpha;
+            _walkableColor.a = _alpha;
+
             _path = new List<PathNode>();   
 
             GenereDebugInfo();
@@ -54,9 +71,11 @@ namespace GridSystem
 
             NotifyObjectChanged += (int x, int y, PathNode pathNode) =>
             {
-                Color nodeColor = pathNode.IsWalkable ? Color.white : Color.blue;
+                Color nodeColor = pathNode.IsWalkable ? _walkableColor : _pathlessColor;
                 ColorizeNode(x, y, nodeColor);
             };
+
+            SetDebugLayerActive();
         }
 
         private GameObject GenarateDebugObject(PathNode pathNode)
@@ -64,7 +83,9 @@ namespace GridSystem
             GameObject debugGameObject = new GameObject(pathNode.ToString());
             SpriteRenderer spriteRenderer = debugGameObject.AddComponent<SpriteRenderer>();    
             spriteRenderer.sprite = _sprite;
-            spriteRenderer.color = Color.white;
+            spriteRenderer.sortingLayerName = "Debug";
+
+            spriteRenderer.color = _walkableColor;     
             debugGameObject.transform.parent = _debugGameObjectsLayer.transform;
             debugGameObject.transform.localScale *= CellSize;
 
@@ -83,7 +104,7 @@ namespace GridSystem
             foreach (PathNode node in _path)
             {
                 node.Clear();
-                Color color = node.IsWalkable ? Color.white : Color.blue;
+                Color color = node.IsWalkable ? _walkableColor : _pathlessColor;
                 ColorizeNode(node.X, node.Y, color);
             }
         }
@@ -92,8 +113,30 @@ namespace GridSystem
         {
             foreach (PathNode node in _path)
             {
-                ColorizeNode(node.X, node.Y, Color.red);
+                ColorizeNode(node.X, node.Y, _pathColor);
             }
+        }
+
+        public bool ShowDebug
+        {
+            get
+            {
+                return _showDebug;
+            }
+ 
+            set
+            {
+                if (_showDebug != value)
+                {
+                    _showDebug = value;
+                    SetDebugLayerActive();
+                }              
+            }
+        }
+
+        private void SetDebugLayerActive()
+        {
+            _debugGameObjectsLayer.SetActive(_showDebug);
         }
 
         #endregion
@@ -229,6 +272,13 @@ namespace GridSystem
             NotifyBuildingChanged?.Invoke(oldPosition, oldArea, newPosition, newArea);
         }
 
+        public void AddBuilding(Building building)
+        {
+            building.transform.SetParent(_buildingsGameObjectsLayer.transform);
+            building.Grid = this;
+            FillBuildingArea(building.Position, building.WalkableArea);
+        }
+
         public void FillBuildingArea(Vector2Int position, bool[,] area)
         {
             for (int dx = 0; dx < area.GetLength(0); dx++)
@@ -262,6 +312,91 @@ namespace GridSystem
                     if (node != null)
                     {
                         node.IsWalkable = true;
+                    }
+                }
+            }
+        }
+
+        public bool IsCanBuild(Building building)
+        {
+            ClearTempBuildingArea();
+
+            _tempBuildingPosition = GetXY(building.transform.position);
+            _tempBuildingArea = building.WalkableArea;
+
+            bool canBuild = CheckBuild();
+
+            FillTempBuildingArea(canBuild);
+                    
+            return canBuild;
+        }
+
+        private bool CheckBuild()
+        {
+            if (_tempBuildingPosition == null || _tempBuildingArea == null)
+            {
+                return false;
+            }
+            for (int dx = 0; dx < _tempBuildingArea.GetLength(0); dx++)
+            {
+                for (int dy = 0; dy < _tempBuildingArea.GetLength(1); dy++)
+                {
+                    int x = _tempBuildingPosition.x + dx;
+                    int y = _tempBuildingPosition.y + dy;
+                    PathNode node = GetValue(x, y);
+                    if (node == null)
+                    {
+                        return false;
+                    }
+                    else if (node.IsWalkable == _tempBuildingArea[dx, dy])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+     
+        private void FillTempBuildingArea(bool canBuild)
+        {
+            if (_tempBuildingPosition != null && _tempBuildingArea != null)
+            {
+                Color buildColor = canBuild ? _buildingColor : _pathlessColor;
+                for (int dx = 0; dx < _tempBuildingArea.GetLength(0); dx++)
+                {
+                    for (int dy = 0; dy < _tempBuildingArea.GetLength(1); dy++)
+                    {
+                        int x = _tempBuildingPosition.x + dx;
+                        int y = _tempBuildingPosition.y + dy;
+
+                        PathNode node = GetValue(x, y);
+
+                        if (node != null && node.IsWalkable != _tempBuildingArea[dx, dy])
+                        {
+                            ColorizeNode(x, y, buildColor);
+                        }
+                    }
+                }
+            }            
+        }
+
+        private void ClearTempBuildingArea()
+        {
+            if (_tempBuildingPosition != null && _tempBuildingArea != null)
+            {
+                for (int dx = 0; dx < _tempBuildingArea.GetLength(0); dx++)
+                {
+                    for (int dy = 0; dy < _tempBuildingArea.GetLength(1); dy++)
+                    {
+                        int x = _tempBuildingPosition.x + dx;
+                        int y = _tempBuildingPosition.y + dy;
+
+                        PathNode node = GetValue(x, y);
+
+                        if (node != null && node.IsWalkable != _tempBuildingArea[dx, dy])
+                        {
+                            ColorizeNode(x, y, _walkableColor);
+                        }
                     }
                 }
             }
