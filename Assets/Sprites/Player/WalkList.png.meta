@@ -1,55 +1,79 @@
 fileFormatVersion: 2
-guid: a27a2b773d8f1c04fb6114b6698c4f04
+guid: 331a7c9ffe4ad2b41b31da1a90b0aa9c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2126785824395246166
-    second: IdleList_0
+      213: -6407198360036204069
+    second: WalkList_0
   - first:
-      213: 7770958300531244752
-    second: IdleList_1
+      213: -5165232241120105719
+    second: WalkList_1
   - first:
-      213: 2567552807599044856
-    second: IdleList_2
+      213: 1694474683289748478
+    second: WalkList_2
   - first:
-      213: -7634354729084703281
-    second: IdleList_3
+      213: 6513054935935051953
+    second: WalkList_3
   - first:
-      213: -6959584116933068961
-    second: IdleList_4
+      213: 8198955130503472121
+    second: WalkList_4
   - first:
-      213: 5036162846845087788
-    second: IdleList_5
+      213: -9173111880484592765
+    second: WalkList_5
   - first:
-      213: 5437531628459174417
-    second: IdleList_6
+      213: 4002935928766727217
+    second: WalkList_6
   - first:
-      213: -3406161360540027372
-    second: IdleList_7
+      213: 3936361203284651727
+    second: WalkList_7
   - first:
-      213: 4844500511305912372
-    second: IdleList_8
+      213: 8657423243832636381
+    second: WalkList_8
   - first:
-      213: -3083986736523562952
-    second: IdleList_9
+      213: 8044547450005087428
+    second: WalkList_9
   - first:
-      213: 4796139569075214942
-    second: IdleList_10
+      213: 1599567294482079790
+    second: WalkList_10
   - first:
-      213: -3508617230755977874
-    second: IdleList_11
+      213: -7046287003944525882
+    second: WalkList_11
   - first:
-      213: 2981553652900384513
-    second: IdleList_12
+      213: 3065912292665795608
+    second: WalkList_12
   - first:
-      213: 849019994861044169
-    second: IdleList_13
+      213: -4274810263163224510
+    second: WalkList_13
   - first:
-      213: 4351532090193436027
-    second: IdleList_14
+      213: 6465720211921987959
+    second: WalkList_14
   - first:
-      213: -8930752639414874816
-    second: IdleList_15
+      213: 4876853226176739822
+    second: WalkList_15
+  - first:
+      213: -241172802975024721
+    second: WalkList_16
+  - first:
+      213: -2940811841842086242
+    second: WalkList_17
+  - first:
+      213: 4904743822712648389
+    second: WalkList_18
+  - first:
+      213: -8183946184741446040
+    second: WalkList_19
+  - first:
+      213: -2286599215543083544
+    second: WalkList_20
+  - first:
+      213: 1001950133416144934
+    second: WalkList_21
+  - first:
+      213: -8274288267499988531
+    second: WalkList_22
+  - first:
+      213: -49800251365848525
+    second: WalkList_23
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -151,7 +175,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: IdleList_0
+      name: WalkList_0
       rect:
         serializedVersion: 2
         x: 0
@@ -165,14 +189,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65a3a68607cd38d10800000000000000
-      internalID: 2126785824395246166
+      spriteID: bd1a390d90f0517a0800000000000000
+      internalID: -6407198360036204069
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_1
+      name: WalkList_1
       rect:
         serializedVersion: 2
         x: 50
@@ -186,14 +210,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0deb98be66df7db60800000000000000
-      internalID: 7770958300531244752
+      spriteID: 90b24ada4a86158b0800000000000000
+      internalID: -5165232241120105719
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_2
+      name: WalkList_2
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 350
+        width: 50
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef3c06a2fbbf38710800000000000000
+      internalID: 1694474683289748478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkList_3
       rect:
         serializedVersion: 2
         x: 0
@@ -207,14 +252,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f87ffecca7c1a320800000000000000
-      internalID: 2567552807599044856
+      spriteID: 1b86303e4f4036a50800000000000000
+      internalID: 6513054935935051953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_3
+      name: WalkList_4
       rect:
         serializedVersion: 2
         x: 50
@@ -228,14 +273,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fcd259b82d25d0690800000000000000
-      internalID: -7634354729084703281
+      spriteID: 9f3a603504a88c170800000000000000
+      internalID: 8198955130503472121
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_4
+      name: WalkList_5
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 300
+        width: 50
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 383ecce885f82b080800000000000000
+      internalID: -9173111880484592765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkList_6
       rect:
         serializedVersion: 2
         x: 0
@@ -249,14 +315,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f57f0cd7e179a6f90800000000000000
-      internalID: -6959584116933068961
+      spriteID: 1340accc4094d8730800000000000000
+      internalID: 4002935928766727217
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_5
+      name: WalkList_7
       rect:
         serializedVersion: 2
         x: 50
@@ -270,14 +336,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c20b83d2d6b04e540800000000000000
-      internalID: 5036162846845087788
+      spriteID: fce296d98a3c0a630800000000000000
+      internalID: 3936361203284651727
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_6
+      name: WalkList_8
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 250
+        width: 50
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd3bade3298552870800000000000000
+      internalID: 8657423243832636381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkList_9
       rect:
         serializedVersion: 2
         x: 0
@@ -291,14 +378,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11aa241f43ef57b40800000000000000
-      internalID: 5437531628459174417
+      spriteID: 4c4e350b849f3af60800000000000000
+      internalID: 8044547450005087428
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_7
+      name: WalkList_10
       rect:
         serializedVersion: 2
         x: 50
@@ -312,14 +399,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 416b9590a42eab0d0800000000000000
-      internalID: -3406161360540027372
+      spriteID: e20efedbafdc23610800000000000000
+      internalID: 1599567294482079790
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_8
+      name: WalkList_11
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 200
+        width: 50
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cf5f608d4f863e90800000000000000
+      internalID: -7046287003944525882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkList_12
       rect:
         serializedVersion: 2
         x: 0
@@ -333,14 +441,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 430569a3c8f1b3340800000000000000
-      internalID: 4844500511305912372
+      spriteID: 81429dc7cfe4c8a20800000000000000
+      internalID: 3065912292665795608
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_9
+      name: WalkList_13
       rect:
         serializedVersion: 2
         x: 50
@@ -354,14 +462,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8303f7d176a7335d0800000000000000
-      internalID: -3083986736523562952
+      spriteID: 24e36fde6b2dca4c0800000000000000
+      internalID: -4274810263163224510
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_10
+      name: WalkList_14
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 150
+        width: 50
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7796ca0a64adab950800000000000000
+      internalID: 6465720211921987959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkList_15
       rect:
         serializedVersion: 2
         x: 0
@@ -375,14 +504,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5a5cebe68f4f8240800000000000000
-      internalID: 4796139569075214942
+      spriteID: ee97bf7ab201ea340800000000000000
+      internalID: 4876853226176739822
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_11
+      name: WalkList_16
       rect:
         serializedVersion: 2
         x: 50
@@ -396,14 +525,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e65a9f3d733ee4fc0800000000000000
-      internalID: -3508617230755977874
+      spriteID: fa9303d0d9e27acf0800000000000000
+      internalID: -241172802975024721
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_12
+      name: WalkList_17
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 100
+        width: 50
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9e7dbff5332037d0800000000000000
+      internalID: -2940811841842086242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkList_18
       rect:
         serializedVersion: 2
         x: 0
@@ -417,14 +567,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10f45e7104b906920800000000000000
-      internalID: 2981553652900384513
+      spriteID: 5c234133586211440800000000000000
+      internalID: 4904743822712648389
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_13
+      name: WalkList_19
       rect:
         serializedVersion: 2
         x: 50
@@ -438,14 +588,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c185e0ef2358cb00800000000000000
-      internalID: 849019994861044169
+      spriteID: 86e929d2e48cc6e80800000000000000
+      internalID: -8183946184741446040
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_14
+      name: WalkList_20
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 50
+        width: 50
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ed1eddd02e5440e0800000000000000
+      internalID: -2286599215543083544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkList_21
       rect:
         serializedVersion: 2
         x: 0
@@ -459,14 +630,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7d51b0716fb36c30800000000000000
-      internalID: 4351532090193436027
+      spriteID: 620bce87654a7ed00800000000000000
+      internalID: 1001950133416144934
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IdleList_15
+      name: WalkList_22
       rect:
         serializedVersion: 2
         x: 50
@@ -480,8 +651,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04d4bc6aac79f0480800000000000000
-      internalID: -8930752639414874816
+      spriteID: dc91b76e8a2db2d80800000000000000
+      internalID: -8274288267499988531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkList_23
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 0
+        width: 50
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33a0d9b6fe21f4ff0800000000000000
+      internalID: -49800251365848525
       vertices: []
       indices: 
       edges: []

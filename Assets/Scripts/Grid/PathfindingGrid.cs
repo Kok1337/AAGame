@@ -44,7 +44,7 @@ namespace GridSystem
             _pathColor.a = _alpha;
             _pathlessColor.a = _alpha;
             _buildingColor.a = _alpha;
-            _walkableColor.a = _alpha;
+            _walkableColor.a = 0.2f;
 
             _path = new List<PathNode>();   
 
