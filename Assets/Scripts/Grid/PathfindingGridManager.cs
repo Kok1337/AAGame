@@ -29,15 +29,25 @@ public class PathfindingGridManager : MonoBehaviour
     private Camera _mainCamera;
     private Player _player;
     private PathfindingGrid _pathfindingGrid;
+	private BackgroundManager _backgroundManager;
 
     private Building _flyingBuilding;
 
     private void Start()
     {
-        _mainCamera = Camera.main;
+		_backgroundManager = GetComponentInChildren<BackgroundManager>();
+		_mainCamera = Camera.main;
         _player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        _pathfindingGrid = new PathfindingGrid(_wight, _height, _cellSize, transform, _debugSprite, (CustomGrid<PathNode> grid, int x, int y) => new PathNode(grid, x, y));
+		_player.BackgroundManager = _backgroundManager;
+        _pathfindingGrid = new PathfindingGrid(_wight, _height, _cellSize, transform, _debugSprite, (CustomGrid<PathNode> grid, int x, int y) => GeneratePathNode(grid, x, y));
     }
+
+	private PathNode GeneratePathNode(CustomGrid<PathNode> grid, int x, int y)
+	{
+		byte penalty = _backgroundManager.GetPenalty(x, y);
+		PathNode generatedPathNode = new PathNode(grid, x, y, penalty);
+		return generatedPathNode;
+	}
 
     // Update is called once per frame
     private void Update()

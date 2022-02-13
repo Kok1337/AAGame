@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c811c5e6f62694fa2ee3c4b16726f2, type: 3}
+  m_Name: SimpleGroundTile
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 11400000, guid: ae2826524d78e1141a489a2b4affa193, type: 2}
+  - {fileID: 11400000, guid: d0deb23b297d05e4b979c89ba7bf57ce, type: 2}
+  - {fileID: 11400000, guid: 4546654b1f47062448ddf4045a21a2ce, type: 2}
+  - {fileID: 11400000, guid: 1b819bb085b088341a221f56e02a8a1b, type: 2}
+  - {fileID: 11400000, guid: 434792bd99105314dbef2e7f15787386, type: 2}
+  - {fileID: 11400000, guid: 6e3d893e8b2e7a54795d5e8dd022b031, type: 2}
+  - {fileID: 11400000, guid: 91c00081bc4bf9b48bd9cd73eaac1624, type: 2}
+  - {fileID: 11400000, guid: 82e641fb340bcdb44ac45a7d72c0d3e9, type: 2}
+  - {fileID: 11400000, guid: 9a7453b2675096d48bc53f99be12c981, type: 2}
+  - {fileID: 11400000, guid: a66602d0016838040bfc2db8cf75da50, type: 2}
+  - {fileID: 11400000, guid: e694ebd983775f34f82193b1dce803a3, type: 2}
+  - {fileID: 11400000, guid: bcfe0f05823ee5c49ae97066b1f9ed08, type: 2}
+  - {fileID: 11400000, guid: ac2ec79dcd162bb468a0173c1a4b5102, type: 2}
+  - {fileID: 11400000, guid: bd9101f0418554d4ab4a62177d9813d9, type: 2}
+  - {fileID: 11400000, guid: 86a95eeaa1b07d649af8965ba065fcfa, type: 2}
+  - {fileID: 11400000, guid: 97a7b9fc59d118549bfc302022b7d130, type: 2}
+  - {fileID: 11400000, guid: dea34c3d4c41cdf449813a89a7e4b255, type: 2}
+  - {fileID: 11400000, guid: 41fd435f1db00734fbd6a59771e9b954, type: 2}
+  - {fileID: 11400000, guid: a0e2cbe2b87e1a3459e6aba47474fbcc, type: 2}
+  - {fileID: 11400000, guid: b4a450cd09bbab1419c08ce2ad47074a, type: 2}
+  - {fileID: 11400000, guid: 90befefced3dacf47aa7d58b857ed719, type: 2}
+  walkingSpeed: 1
+  penalty: 10

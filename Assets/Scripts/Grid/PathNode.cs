@@ -8,20 +8,25 @@ namespace GridSystem
     {
         private CustomGrid<PathNode> _grid;
         private Vector2Int _gridPosition;
-        private bool _isWalkable;
+        private bool _isWalkable;  
 
+        // Пройденный вес 
         public int gCost;
+        // Предполагаемый остальной вес 
         public int hCost;
+        // Штрафной вес
+        private byte _penalty;
 
         public PathNode comeFromNode;
 
         private int _heapIndex;
 
-        public PathNode(CustomGrid<PathNode> grid, int x, int y)
+        public PathNode(CustomGrid<PathNode> grid, int x, int y, byte penalty = 0)
         {
             _grid = grid;
             _gridPosition = new Vector2Int(x, y);
             IsWalkable = true;
+            _penalty = penalty;
         }
 
         public override string ToString()
@@ -40,6 +45,12 @@ namespace GridSystem
             {
                 return _gridPosition;
             }
+        }
+
+        public byte Penalty
+        {
+            get => _penalty;
+            set => _penalty = value;
         }
 
         public void InvestIsWalkable()
@@ -70,7 +81,7 @@ namespace GridSystem
 
             set
             {
-                _isWalkable = value;
+				_isWalkable = value;
                 _grid.TrigerGridObjectChanged(X, Y);
             }
             
@@ -107,4 +118,3 @@ namespace GridSystem
         }
     }
 }
-
