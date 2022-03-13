@@ -2,10 +2,7 @@ using System;
 
 public class NailsItem : BasicInventoryItem
 {
-	public NailsItem() : base() { }
-
 	public NailsItem(IInventoryItemInfo itemInfo) : base(itemInfo) {}
-
 
 	public override IInventoryItem Clone()
 	{

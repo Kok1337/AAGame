@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99475f9a69cfe0a49b698692c5354723, type: 3}
+  m_Name: BoardItemInfo
+  m_EditorClassIdentifier: 
+  _maxAmountInStack: 7
+  _spriteIcon: {fileID: -4126748590940305798, guid: 8a6b12e20ce64db4aa8a43e46f40775b, type: 3}

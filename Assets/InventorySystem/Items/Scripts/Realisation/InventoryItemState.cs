@@ -3,14 +3,12 @@ using System;
 [Serializable]
 public class InventoryItemState : IInventoryItemState
 {
-	private int _itemAmount;
+	public int amount { get; set; }
 
-
-	public int amount { get => _itemAmount; set => _itemAmount = value; }
-
+	public bool isEmpty => amount == 0;
 
 	public InventoryItemState(int itemAmount = 0)
 	{
-		this._itemAmount = itemAmount;
+		amount = itemAmount;
 	}
 }

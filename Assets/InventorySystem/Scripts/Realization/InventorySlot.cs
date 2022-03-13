@@ -2,10 +2,7 @@ using System;
 
 public class InventorySlot : IInventorySlot
 {
-	private IInventoryItem _item;
-
-
-	public IInventoryItem item => _item;
+	public IInventoryItem item { get; private set; }
 
 	public bool isFull => isEmpty ? false : amount == capacity;
 
@@ -23,8 +20,8 @@ public class InventorySlot : IInventorySlot
 		if (isEmpty)
 			return;
 
-		_item.state.amount = 0;
-		_item = null;
+		item.state.amount = 0;
+		item = null;
 	}
 
 	public void SetItem(IInventoryItem item)
@@ -32,6 +29,6 @@ public class InventorySlot : IInventorySlot
 		if (!isEmpty)
 			return;
 
-		this._item = item;
+		this.item = item;
 	}
 }

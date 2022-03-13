@@ -3,15 +3,8 @@ using UnityEngine;
 
 public abstract class BasicInventoryItem : IInventoryItem
 {
-	[SerializeField]
 	private IInventoryItemInfo _itemInfo;
 	private IInventoryItemState _itemState;
-
-
-	public BasicInventoryItem()
-	{
-		this._itemState = new InventoryItemState();
-	}
 
 	public BasicInventoryItem(IInventoryItemInfo itemInfo)
 	{

@@ -9,11 +9,6 @@ public class InventoryWithSlots : IInventory
 	private List<IInventorySlot> _slots;
 
 
-	public event Action<object, IInventoryItem, int> OnInventoryItemAddedEvent;
-	public event Action<object, Type, int> OnInventoryItemRemovedEvent;
-	public event Action<object> OnInventoryUpdatedEvent;
-
-
 	public int inventoryCapacity
 	{
 		get => _inventoryCapacity;
@@ -81,8 +76,7 @@ public class InventoryWithSlots : IInventory
 					slot.Clear();
 
 				// —колько отн€ли (все)
-				Debug.Log($"Item removed. ItemType={itemType}, amount={amountToRemove}");
-				OnInventoryItemRemovedEvent?.Invoke(sender, itemType, amountToRemove);
+				InventoryManager.SendInventoryItemRemoved(sender, itemType, amountToRemove);
 
 				break;
 			}
@@ -92,8 +86,7 @@ public class InventoryWithSlots : IInventory
 			amountToRemove -= slot.amount;
 			slot.Clear();
 
-			Debug.Log($"Item removed. ItemType={itemType}, amount={amountRemoved}");
-			OnInventoryItemRemovedEvent?.Invoke(sender, itemType, amountRemoved);
+			InventoryManager.SendInventoryItemRemoved(sender, itemType, amountRemoved);
 		}
 	}
 
@@ -104,10 +97,10 @@ public class InventoryWithSlots : IInventory
 		if (slotsWithSameItemButNotEmpty != null)
 			return TryToAddToSlot(sender, slotsWithSameItemButNotEmpty, item);
 
-		var emprySlot = _slots.Find(slot => slot.isEmpty);
+		var emptySlot = _slots.Find(slot => slot.isEmpty);
 
-		if (emprySlot != null)
-			return TryToAddToSlot(sender, emprySlot, item);
+		if (emptySlot != null)
+			return TryToAddToSlot(sender, emptySlot, item);
 
 		return false;
 	}
@@ -116,7 +109,7 @@ public class InventoryWithSlots : IInventory
 	public bool TryToAddToSlot(object sender, IInventorySlot slot, IInventoryItem item)
 	{
 		// ѕроверка, влезет ли в данный слот если слот не пустой
-		var fits = slot.isEmpty ? item.state.amount < item.metadata.maxAmountInStack : slot.amount + item.state.amount <= slot.capacity;
+		var fits = slot.isEmpty ? item.state.amount <= item.metadata.maxAmountInStack : (slot.amount + item.state.amount) <= slot.capacity;
 		// —колько нужно добавить в слот
 		// ≈сли влазиет - добавить все иначе сколько влезет
 		var amountToAdd = fits ? item.state.amount : slot.capacity - slot.amount;
@@ -132,9 +125,8 @@ public class InventoryWithSlots : IInventory
 		}
 		else
 			slot.item.state.amount += amountToAdd;
-
-		Debug.Log($"Item added. ItemType={item.type}, amount={amountToAdd}, fits={fits}, amountLeft={amountLeft}");
-		OnInventoryItemAddedEvent?.Invoke(this, item, amountToAdd);
+	
+		InventoryManager.SendInventoryItemAdded(this, item, amountToAdd);
 
 		if (amountLeft <= 0)
 			return true;
@@ -151,5 +143,51 @@ public class InventoryWithSlots : IInventory
 	public IInventorySlot[] GetAllSlots()
 	{
 		return _slots.ToArray();
+	}
+
+	private void SwapSlots(object sender, IInventorySlot slot1, IInventorySlot slot2)
+	{
+		Debug.Log($"SwapSlots. slot1={slot1.itemType}, slot2={slot2.itemType}");
+		IInventoryItem tmp = slot1.item;
+		slot1.SetItem(slot2.item);
+		slot2.SetItem(tmp);
+		Debug.Log($"SwapSlots. slot1={slot1.itemType}, slot2={slot2.itemType}");
+		InventoryManager.SendInventoryStateChanged(sender);
+	}
+
+	public void TransitFromSlotToSlot(object sender, IInventorySlot fromSlot, IInventorySlot toSlot)
+	{
+		if (fromSlot.isEmpty)
+			throw new Exception("fromSlot is empty");
+
+		if (toSlot.isFull)
+			return;
+
+		if (!toSlot.isEmpty && fromSlot.itemType != toSlot.itemType)
+		{
+			SwapSlots(sender, fromSlot, toSlot);
+			return;
+		}
+			
+		var slotCapacity = fromSlot.capacity;
+		var fits = fromSlot.amount + toSlot.amount <= slotCapacity;
+		var amountToAdd = fits ? fromSlot.amount : slotCapacity - toSlot.amount;
+		var amountLeft = fromSlot.amount - amountToAdd;
+
+		if (toSlot.isEmpty)
+		{
+			toSlot.SetItem(fromSlot.item);
+			fromSlot.Clear();
+			InventoryManager.SendInventoryStateChanged(sender);
+		}
+
+		toSlot.item.state.amount += amountToAdd;
+
+		if (fits)
+			fromSlot.Clear();
+		else
+			fromSlot.item.state.amount = amountLeft;
+
+		InventoryManager.SendInventoryStateChanged(sender);
 	}
 }
