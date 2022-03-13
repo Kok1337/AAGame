@@ -26,9 +26,6 @@ public class InventorySlot : IInventorySlot
 
 	public void SetItem(IInventoryItem item)
 	{
-		if (!isEmpty)
-			return;
-
 		this.item = item;
 	}
 }

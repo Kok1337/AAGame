@@ -30,7 +30,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2737148964904300302}
+  - {fileID: 15507365055804987}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fe2327fb8874294b9793c080471a678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiItem: {fileID: 1918729725436310188}
---- !u!1001 &3368238587098505126
+  _uiItem: {fileID: 0}
+--- !u!1001 &825630431230183059
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -187,19 +187,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 564e7d9bf7c4722468fddc8d0816539f, type: 3}
---- !u!224 &2737148964904300302 stripped
+--- !u!224 &15507365055804987 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 811260762226421928, guid: 564e7d9bf7c4722468fddc8d0816539f, type: 3}
-  m_PrefabInstance: {fileID: 3368238587098505126}
+  m_PrefabInstance: {fileID: 825630431230183059}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1918729725436310188 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3755669636450364682, guid: 564e7d9bf7c4722468fddc8d0816539f, type: 3}
-  m_PrefabInstance: {fileID: 3368238587098505126}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cedffb98c031fa4a9f79dce99aadc51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

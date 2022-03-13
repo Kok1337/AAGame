@@ -147,11 +147,12 @@ public class InventoryWithSlots : IInventory
 
 	private void SwapSlots(object sender, IInventorySlot slot1, IInventorySlot slot2)
 	{
-		Debug.Log($"SwapSlots. slot1={slot1.itemType}, slot2={slot2.itemType}");
 		IInventoryItem tmp = slot1.item;
+		Debug.Log($"SwapSlots. slot1={slot1.itemType}, slot2={slot2.itemType}, tmp={tmp.type}");
 		slot1.SetItem(slot2.item);
+		Debug.Log($"SwapSlots. slot1={slot1.itemType}, slot2={slot2.itemType}, tmp={tmp.type}");
 		slot2.SetItem(tmp);
-		Debug.Log($"SwapSlots. slot1={slot1.itemType}, slot2={slot2.itemType}");
+		Debug.Log($"SwapSlots. slot1={slot1.itemType}, slot2={slot2.itemType}, tmp={tmp.type}");
 		InventoryManager.SendInventoryStateChanged(sender);
 	}
 
@@ -160,8 +161,11 @@ public class InventoryWithSlots : IInventory
 		if (fromSlot.isEmpty)
 			throw new Exception("fromSlot is empty");
 
-		if (toSlot.isFull)
+		if (toSlot.isFull && fromSlot.itemType != toSlot.itemType)
+		{
+			SwapSlots(sender, fromSlot, toSlot);
 			return;
+		}
 
 		if (!toSlot.isEmpty && fromSlot.itemType != toSlot.itemType)
 		{
