@@ -29,10 +29,10 @@ public class InventoryUITest
 
 		for (int i = 0; i < filledSlots; i++)
 		{
-			var addedSlot = AddRandomItemsIntoRandomSlot(availableSlots, new NailsItem(_nailsInfo));
+			var addedSlot = AddRandomItemsIntoRandomSlot(availableSlots, new NailsItem.Nails(_nailsInfo));
 			availableSlots.Remove(addedSlot);
 
-			addedSlot = AddRandomItemsIntoRandomSlot(availableSlots, new BoardItem(_boardInfo));
+			addedSlot = AddRandomItemsIntoRandomSlot(availableSlots, new BoardItem.Board(_boardInfo));
 			availableSlots.Remove(addedSlot);
 		}
 	}

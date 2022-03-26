@@ -92,6 +92,9 @@ public class InventoryWithSlots : IInventory
 
 	public bool TryToAddItem(object sender, IInventoryItem item)
 	{
+		if (item.state.amount == 0)
+			return false;
+
 		var slotsWithSameItemButNotEmpty = _slots.Find(slot => !slot.isEmpty && slot.itemType == item.type && !slot.isFull);
 
 		if (slotsWithSameItemButNotEmpty != null)
@@ -128,10 +131,11 @@ public class InventoryWithSlots : IInventory
 	
 		InventoryManager.SendInventoryItemAdded(this, item, amountToAdd);
 
+		item.state.amount = amountLeft;
+
 		if (amountLeft <= 0)
 			return true;
 
-		item.state.amount = amountLeft;
 		return TryToAddItem(sender, item);
 	}
 

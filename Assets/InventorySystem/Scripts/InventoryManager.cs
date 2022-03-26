@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class InventoryManager : MonoBehaviour
 {
-	public static InventoryWithSlots inventory { get; private set; }
+	private static InventoryWithSlots inventory;
 
 	public static readonly UnityEvent<object> OnInventoryOpen = new UnityEvent<object>();
 	public static readonly UnityEvent<object> OnInventoryClose = new UnityEvent<object>();
@@ -22,7 +22,7 @@ public class InventoryManager : MonoBehaviour
 		OnInventoryItemAdded.AddListener((sender, item, added) => { SendInventoryStateChanged(sender); });
 		OnInventoryItemRemoved.AddListener((sender, type, removed) => { SendInventoryStateChanged(sender); });
 
-		GameManager.OnDropItem.AddListener((sender, item) => { TryAddItemToInventory(item); });
+		// GameManager.OnDropItem.AddListener((sender, item) => { TryAddItemToInventory(item); });
 	}
 
 	public static void SetInventory(InventoryWithSlots inventoryWithSlots)
@@ -44,6 +44,7 @@ public class InventoryManager : MonoBehaviour
 	{
 		selectedUiItem = uiItem;
 		OnUIItemSelected.Invoke(sender, uiItem);
+		Debug.Log("Selected");
 	}
 
 	public static void SendInventoryItemRemoved(object sender, Type itemType, int removed)
@@ -80,8 +81,17 @@ public class InventoryManager : MonoBehaviour
 		}
 	}
 
-	private void TryAddItemToInventory(GameObject item)
+	public static void TryAddItemToInventory(object sender, PickupableItem pickupable)
 	{
-
+		IInventoryItem inventoryItem = pickupable.ToIInventoryItem();
+		bool success = inventory.TryToAddItem(sender, inventoryItem);	
+		if (success)
+		{
+			pickupable.DestroyGameObject();
+		}
+		else
+		{
+			pickupable.UpdateAmount(inventoryItem.state.amount);
+		}
 	}
 }

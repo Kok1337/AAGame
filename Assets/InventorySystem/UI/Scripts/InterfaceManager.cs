@@ -9,6 +9,7 @@ public class InterfaceManager : MonoBehaviour
 
 	private void Start()
 	{
+		_uiInvenotory?.SetActive(true);
 		_uiInvenotory?.SetActive(false);
 	}
 

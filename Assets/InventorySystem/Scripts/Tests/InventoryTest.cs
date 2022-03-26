@@ -9,7 +9,7 @@ public class InventoryTest : MonoBehaviour
     {
 		var inventoryCapacity = 10;
 		_inventory = new InventoryWithSlots(inventoryCapacity);
-		var item = new NailsItem(new InventoryItemInfo(5, null));
+		var item = new NailsItem.Nails(new InventoryItemInfo(5, null));
 		Debug.Log(item.type);
 	}
 
@@ -45,7 +45,7 @@ public class InventoryTest : MonoBehaviour
 	private void AddRandomApple()
 	{
 		var rCount = Random.Range(1, 5);
-		var item = new NailsItem(new InventoryItemInfo(5, null));
+		var item = new NailsItem.Nails(new InventoryItemInfo(5, null));
 		item.state.amount = rCount;
 		Debug.Log($"Try add. ItemType={item.type}, amount={rCount}");
 		_inventory.TryToAddItem(this, item);

@@ -29,6 +29,11 @@ public class PlayerKeyboardController : MonoBehaviour
             {
                 Player.MovementByDirectionFromKeyBoard(magnitude > 1 ? direction.normalized : direction);
             }
+
+			if (Input.GetKeyUp(KeyCode.F))
+			{
+				Player.PickupNearestItem();
+			}
         }
     }
 }

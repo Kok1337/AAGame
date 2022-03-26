@@ -1,13 +1,21 @@
-using System;
-
-public class NailsItem : BasicInventoryItem
+public class NailsItem : PickupableItem
 {
-	public NailsItem(IInventoryItemInfo itemInfo) : base(itemInfo) {}
-
-	public override IInventoryItem Clone()
+	public override IInventoryItem ToIInventoryItem()
 	{
-		var clonedItem = new NailsItem(metadata);
-		clonedItem.state.amount = state.amount;
-		return clonedItem;
+		return new Nails(ItemInfo, Amount);
+	}
+
+	public class Nails : BasicInventoryItem
+	{
+		public Nails(IInventoryItemInfo itemInfo) : base(itemInfo) { }
+
+		public Nails(IInventoryItemInfo itemInfo, int amount) : base(itemInfo, amount) { }
+
+		public override IInventoryItem Clone()
+		{
+			var clonedItem = new Nails(metadata);
+			clonedItem.state.amount = state.amount;
+			return clonedItem;
+		}
 	}
 }

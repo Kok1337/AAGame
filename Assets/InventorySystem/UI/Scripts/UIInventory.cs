@@ -18,12 +18,14 @@ public class UIInventory : MonoBehaviour
 		InventoryManager.OnInventoryStateChanged.AddListener((sender) => { Refresh(); });
 		_uiSlots = GetComponentsInChildren<UIInventorySlot>();
 		inventory = new InventoryWithSlots(_uiSlots.Length);
+
 		FillSlots();
 		InventoryManager.SetInventory(inventory);
 	}
 
 	private void Start()
 	{
+		
 		SetupInventoryUI(inventory);
 	}
 
@@ -36,10 +38,10 @@ public class UIInventory : MonoBehaviour
 
 		for (int i = 0; i < filledSlots; i++)
 		{
-			var addedSlot = AddRandomItemsIntoRandomSlot(availableSlots, new NailsItem(_nailsInfo));
+			var addedSlot = AddRandomItemsIntoRandomSlot(availableSlots, new NailsItem.Nails(_nailsInfo));
 			availableSlots.Remove(addedSlot);
 
-			addedSlot = AddRandomItemsIntoRandomSlot(availableSlots, new BoardItem(_boardInfo));
+			addedSlot = AddRandomItemsIntoRandomSlot(availableSlots, new BoardItem.Board(_boardInfo));
 			availableSlots.Remove(addedSlot);
 		}
 	}

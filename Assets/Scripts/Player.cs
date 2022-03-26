@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using GridSystem;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -267,5 +269,14 @@ public class Player : MonoBehaviour
 	public BackgroundManager BackgroundManager
 	{
 		set => _backgroundManager = value;
+	}
+
+	public void PickupNearestItem()
+	{
+		PickupableItem nearestItem = PickupableItem.FindNearestPickupableItem(this.transform);
+		if (nearestItem != null)
+		{
+			InventoryManager.TryAddItemToInventory(this, nearestItem);
+		}
 	}
 }
