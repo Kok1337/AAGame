@@ -14,7 +14,7 @@ public class UIInventoryItem : MonoBehaviour
 	public RectTransform rectTransform { get; private set; }
 	public Vector2 slotPosition { get => uiSlot?.rectTransform?.localPosition ?? Vector3.zero; }
 
-	private void Start()
+	private void Awake()
 	{
 		canvas = GetComponentInParent<Canvas>();
 		uiSlot = GetComponentInParent<UIInventorySlot>();

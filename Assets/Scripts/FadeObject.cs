@@ -35,17 +35,29 @@ public class FadeObject : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+	private void OnTriggerStay2D(Collider2D collision)
+	{
+		if (collision.tag == "Player")
+			_fadeState = FadeState.Fade;
+	}
+
+	private void OnTriggerExit2D(Collider2D collision)
     {
-        _fadeState = FadeState.Fade;
+		if (collision.tag == "Player")
+			_fadeState = FadeState.Unfade;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _fadeState = FadeState.Unfade;
-    }
+	private void OnMouseOver()
+	{
+		_fadeState = FadeState.Fade;
+	}
 
-    private void Fade()
+	private void OnMouseExit()
+	{
+		_fadeState = FadeState.Unfade;
+	}
+
+	private void Fade()
     {
         Color color = _spriteRenderer.material.color;
         color.a -= FadeStep;

@@ -2,6 +2,7 @@ using GridSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PathfindingGridManager : MonoBehaviour
 {
@@ -64,7 +65,7 @@ public class PathfindingGridManager : MonoBehaviour
 
     private void ControllPlayer()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             if (_player != null)
             {

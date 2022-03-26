@@ -12,7 +12,6 @@ public abstract class BasicInventoryItem : IInventoryItem
 		this._itemInfo = itemInfo;
 	}
 
-
 	public IInventoryItemInfo metadata => _itemInfo;
 
 	public IInventoryItemState state => _itemState;

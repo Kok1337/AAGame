@@ -4,6 +4,11 @@ using UnityEngine.Events;
 
 public class InventoryManager : MonoBehaviour
 {
+	public static InventoryWithSlots inventory { get; private set; }
+
+	public static readonly UnityEvent<object> OnInventoryOpen = new UnityEvent<object>();
+	public static readonly UnityEvent<object> OnInventoryClose = new UnityEvent<object>();
+
 	public static readonly UnityEvent<object, UIInventoryItem> OnUIItemSelected = new UnityEvent<object, UIInventoryItem>();
 	public static readonly UnityEvent<object, Type, int> OnInventoryItemRemoved = new UnityEvent<object, Type, int>();
 	public static readonly UnityEvent<object, IInventoryItem, int> OnInventoryItemAdded = new UnityEvent<object, IInventoryItem, int>();
@@ -16,6 +21,23 @@ public class InventoryManager : MonoBehaviour
 		OnInventoryStateChanged.AddListener((sender) => { UpdateSelectedItem(); });
 		OnInventoryItemAdded.AddListener((sender, item, added) => { SendInventoryStateChanged(sender); });
 		OnInventoryItemRemoved.AddListener((sender, type, removed) => { SendInventoryStateChanged(sender); });
+
+		GameManager.OnDropItem.AddListener((sender, item) => { TryAddItemToInventory(item); });
+	}
+
+	public static void SetInventory(InventoryWithSlots inventoryWithSlots)
+	{
+		inventory = inventoryWithSlots;
+	}
+
+	public static void SendInventoryOpen(object sender)
+	{
+		OnInventoryOpen?.Invoke(sender);
+	}
+
+	public static void SendInventoryClose(object sender)
+	{
+		OnInventoryClose?.Invoke(sender);
 	}
 
 	public static void SendUIItemSelected(object sender, UIInventoryItem uiItem)
@@ -56,5 +78,10 @@ public class InventoryManager : MonoBehaviour
 			selectedUiItem.ReturnToSlot();
 			SendUIItemSelected(this, null);
 		}
+	}
+
+	private void TryAddItemToInventory(GameObject item)
+	{
+
 	}
 }

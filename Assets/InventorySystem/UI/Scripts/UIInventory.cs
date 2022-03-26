@@ -13,13 +13,17 @@ public class UIInventory : MonoBehaviour
 
 	public InventoryWithSlots inventory { get; private set; }
 
-	private void Start()
+	private void Awake()
 	{
 		InventoryManager.OnInventoryStateChanged.AddListener((sender) => { Refresh(); });
-
 		_uiSlots = GetComponentsInChildren<UIInventorySlot>();
 		inventory = new InventoryWithSlots(_uiSlots.Length);
 		FillSlots();
+		InventoryManager.SetInventory(inventory);
+	}
+
+	private void Start()
+	{
 		SetupInventoryUI(inventory);
 	}
 

@@ -13,7 +13,7 @@ public class UIInventorySlot : MonoBehaviour, IPointerDownHandler
 	public UIInventoryItem uiItem { get => _uiItem; private set => _uiItem = value; }
 	public IInventorySlot slot { get; private set; }
 
-	private void Start()
+	private void Awake()
 	{
 		rectTransform = GetComponent<RectTransform>();
 		_uiInventory = GetComponentInParent<UIInventory>();
