@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9094988071967865311}
   - component: {fileID: 9094988071967865310}
-  - component: {fileID: 9094988071967865309}
   - component: {fileID: 9094988071967865304}
+  - component: {fileID: 9094988071967865309}
   m_Layer: 0
   m_Name: Nails
   m_TagString: Untagged
@@ -84,21 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9094988071967865309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9094988071967865308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa7f24d4d10082946ab01985d9fedf42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _amount: 1
-  _itemInfo: {fileID: 11400000, guid: ff421a25b72131a4ca3a4b4d0b04d6aa, type: 2}
-  selectedOutlineThickness: 0.005
 --- !u!58 &9094988071967865304
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -115,3 +100,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.7
+--- !u!114 &9094988071967865309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9094988071967865308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7f24d4d10082946ab01985d9fedf42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1
+  _itemInfo: {fileID: 11400000, guid: ff421a25b72131a4ca3a4b4d0b04d6aa, type: 2}
+  selectedOutlineThickness: 0.005
