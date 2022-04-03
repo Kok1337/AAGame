@@ -10,6 +10,8 @@ public class BackgroundManager : MonoBehaviour
 
 	[SerializeField]
 	private List<DataTile> _tileDatas;
+	[SerializeField]
+	private byte _defaultPenalty;
 
 	private Dictionary<TileBase, DataTile> _dataFromTiles;
 
@@ -36,9 +38,9 @@ public class BackgroundManager : MonoBehaviour
 		Vector3Int tilePosition = new Vector3Int(x, y, 0);
 		TileBase tile = _tilemap.GetTile(tilePosition);
 
-		if (tile == null)
+		if (tile == null || _dataFromTiles.ContainsKey(tile) == false)
 		{
-			return 0;
+			return _defaultPenalty;
 		}
 
 		byte penalty = _dataFromTiles[tile].penalty;
@@ -50,7 +52,7 @@ public class BackgroundManager : MonoBehaviour
 		Vector3Int tilePosition = _tilemap.WorldToCell(worldPosition);
 		TileBase tile = _tilemap.GetTile(tilePosition);
 
-		if (tile == null)
+		if (tile == null || _dataFromTiles.ContainsKey(tile) == false)
 		{
 			return 1;
 		}

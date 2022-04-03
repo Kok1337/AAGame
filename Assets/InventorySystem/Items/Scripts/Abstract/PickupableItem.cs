@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class PickupableItem : MonoBehaviour
 {
 	[SerializeField]
-	private int _amount;
+	private int _amount = 1;
 	[SerializeField]
 	private InventoryItemInfo _itemInfo;
 

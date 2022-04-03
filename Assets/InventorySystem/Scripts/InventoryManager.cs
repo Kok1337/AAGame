@@ -81,6 +81,14 @@ public class InventoryManager : MonoBehaviour
 		}
 	}
 
+	public static void Craft(CraftingRecipe recipe)
+	{
+		if (recipe.CanCraft(inventory))
+		{
+			recipe.Craft(inventory);
+		}
+	}
+
 	public static void TryAddItemToInventory(object sender, PickupableItem pickupable)
 	{
 		IInventoryItem inventoryItem = pickupable.ToIInventoryItem();

@@ -28,7 +28,7 @@ TextureImporter:
     second: materials_7
   - first:
       213: 2932958222088095018
-    second: materials_8
+    second: materials_brick
   - first:
       213: 1871778126006313580
     second: materials_9
@@ -307,7 +307,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: materials_8
+      name: materials_brick
       rect:
         serializedVersion: 2
         x: 0
